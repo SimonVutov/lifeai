@@ -68,7 +68,7 @@ body {
   padding: 12px 24px;
   font-size: 1rem;
   color: white;
-  background-color: #61dafb;
+  background-color: #8f8f8f;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -76,13 +76,13 @@ body {
 }
 
 .cta-button:hover {
-  background-color: #4bb1e8;
+  background-color: #303030;
 }
 
 /* Message */
 .message {
   margin-top: 10px;
-  color: #98c379;
+  color: #c3b479;
   font-size: 1rem;
 }
 
