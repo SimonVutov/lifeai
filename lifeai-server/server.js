@@ -1,12 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const cors = require('cors');  // Import the CORS package
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
+// Use the CORS middleware and allow specific origins
+app.use(cors({
+    origin: 'https://simonvutov.github.io',  // Allow requests from your GitHub Pages site
+}));
 
 // Connect to MongoDB Atlas
 mongoose.connect('mongodb+srv://simonvutov1:wuLnRzct3W0m2OU1@cluster0.4dqmx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
@@ -29,8 +33,6 @@ const Email = mongoose.model('Email', emailSchema);
 
 // API route to handle email submissions
 app.post('/submit-email', async (req, res) => {
-    console.log('Received sign-up request:', req.body); // Add this line
-
     const { email } = req.body;
 
     if (!email) {
@@ -40,10 +42,8 @@ app.post('/submit-email', async (req, res) => {
     try {
         const newEmail = new Email({ email });
         await newEmail.save();
-        console.log('Email saved:', email);  // Add this line
         res.status(200).json({ message: 'Email saved successfully' });
     } catch (err) {
-        console.error('Error saving email:', err);  // Add this line
         if (err.code === 11000) { // Duplicate email error
             return res.status(400).json({ error: 'Email already exists' });
         }
