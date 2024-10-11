@@ -1,7 +1,43 @@
-//import React from 'react';
-import './LandingPage.css';  // You'll create this file to manage styles
+import React, { useState } from 'react';
+import './LandingPage.css';
 
 function LandingPage() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();  // This prevents page refresh on form submit
+    
+    // Log for debugging
+    console.log('Form submitted with email:', email);
+    
+    try {
+      const response = await fetch('http://localhost:5000/submit-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage('Thank you for signing up!');
+        setEmail('');  // Clear input field
+      } else {
+        setMessage('Failed to sign up. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+      setMessage('An error occurred. Please try again later.');
+    }
+  };
+
   return (
     <div className="container">
       <header className="header">
@@ -10,20 +46,21 @@ function LandingPage() {
           Seamlessly integrate your Notion, Calendar, Email, and more.
           Get personalized AI-driven insights for a productive life.
         </p>
-        <button className="cta-button">Sign Up for Updates</button>
+
+        <form onSubmit={handleFormSubmit} className="signup-form">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={handleEmailChange}
+            className="email-input"
+            required
+          />
+          <button type="submit" className="cta-button">Sign Up</button>
+        </form>
+
+        {message && <p className="message">{message}</p>}
       </header>
-      
-      <section className="features-section">
-        <h2 className="section-title">Why LifeAI?</h2>
-        <p className="section-description">
-          Unlock the full potential of your productivity tools by letting AI guide you through your daily tasks, 
-          improve your decision-making, and keep you on track.
-        </p>
-      </section>
-      
-      <footer className="footer">
-        <p className="footer-text">Stay tuned for more updates. Sign up to receive early access.</p>
-      </footer>
     </div>
   );
 }
