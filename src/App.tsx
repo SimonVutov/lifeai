@@ -14,7 +14,7 @@ function LandingPage() {
     
     // Send email to server
     try {
-      const response = await fetch('http://localhost:5000/submit-email', {
+      const response = await fetch('https://your-deployed-server.com/submit-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
