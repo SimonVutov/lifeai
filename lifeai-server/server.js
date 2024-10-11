@@ -29,6 +29,8 @@ const Email = mongoose.model('Email', emailSchema);
 
 // API route to handle email submissions
 app.post('/submit-email', async (req, res) => {
+    console.log('Received sign-up request:', req.body); // Add this line
+
     const { email } = req.body;
 
     if (!email) {
@@ -38,8 +40,10 @@ app.post('/submit-email', async (req, res) => {
     try {
         const newEmail = new Email({ email });
         await newEmail.save();
+        console.log('Email saved:', email);  // Add this line
         res.status(200).json({ message: 'Email saved successfully' });
     } catch (err) {
+        console.error('Error saving email:', err);  // Add this line
         if (err.code === 11000) { // Duplicate email error
             return res.status(400).json({ error: 'Email already exists' });
         }

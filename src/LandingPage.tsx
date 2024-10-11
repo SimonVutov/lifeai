@@ -12,7 +12,9 @@ function LandingPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Send email to server
+    // Log to verify button click
+    console.log('Sign-up form submitted with email:', email);
+  
     try {
       const response = await fetch('http://localhost:5000/submit-email', {
         method: 'POST',
@@ -22,6 +24,8 @@ function LandingPage() {
         body: JSON.stringify({ email }),
       });
   
+      console.log('Server response:', response);
+  
       if (response.ok) {
         setMessage('Thank you for signing up!');
         setEmail(''); // Clear input field
@@ -29,6 +33,7 @@ function LandingPage() {
         setMessage('Failed to sign up. Please try again.');
       }
     } catch (error) {
+      console.error('Error submitting form:', error);
       setMessage('An error occurred. Please try again later.');
     }
   };
