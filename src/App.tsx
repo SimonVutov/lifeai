@@ -13,27 +13,25 @@ function LandingPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "cloiud.mongodb: mongodb+srv://simonvutov1:wuLnRzct3W0m2OU1@cluster0.4dqmx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch("http://localhost:3000/submit-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
         setMessage(data.message);
         setEmail("");
       } else {
-        const errorData = await response.json();
-        setMessage(errorData.error || "Failed to sign up. Please try again.");
+        setMessage(data.error || "Failed to sign up. Please try again.");
       }
     } catch (error) {
       setMessage("An error occurred. Please try again later.");
+      console.error("Error:", error);
     }
   };
 
@@ -71,10 +69,10 @@ function LandingPage() {
         <h2 className="section-title">Vision</h2>
         <p className="section-description">
           LifeAI is built on the idea that productivity should be about more
-          than just managing tasks—it’s about creating space for the things that
+          than just managing tasks—it's about creating space for the things that
           truly matter. With advanced AI algorithms, LifeAI analyzes your daily
           routines, recurring meetings, and tasks, and offers proactive
-          suggestions to improve your workflow. It’s not just a to-do list—it's
+          suggestions to improve your workflow. It's not just a to-do list—it's
           your intelligent partner in navigating the complexities of modern
           life.
         </p>
