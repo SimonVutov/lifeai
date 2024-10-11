@@ -11,8 +11,7 @@ function LandingPage() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Send email to server
+
     try {
       const response = await fetch('https://your-deployed-server.com/submit-email', {
         method: 'POST',
