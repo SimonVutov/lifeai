@@ -9,10 +9,10 @@ function LandingPage() {
       </header>
       <section>
         <h2>Why LifeAI?</h2>
-        <p>Get personalized productivity tips, daily planning, and decision-making support.</p>
+        <p>Get personalized productivity tips, daily planning, and decision-making support with a context aware AI model.</p>
       </section>
       <footer>
-        <p>Stay tuned for more. Sign up to receive updates.</p>
+        <p>Stay tuned for more. Sign up to receive updates and show your support to this project.</p>
       </footer>
     </div>
   );
