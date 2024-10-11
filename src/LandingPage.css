@@ -22,7 +22,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: 40px;
-  background-color: #2c313a; /* Slightly lighter dark background */
+  background-color: #131a27; /* Slightly lighter dark background */
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
@@ -68,7 +68,7 @@ body {
   padding: 12px 24px;
   font-size: 1rem;
   color: white;
-  background-color: #8f8f8f;
+  background-color: #4b4b4b;
   border: none;
   border-radius: 4px;
   cursor: pointer;
