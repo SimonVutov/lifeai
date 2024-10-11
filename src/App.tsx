@@ -10,11 +10,9 @@ function LandingPage() {
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();  // This prevents page refresh on form submit
+    e.preventDefault();
     
-    // Log for debugging
-    console.log('Form submitted with email:', email);
-    
+    // Send email to server
     try {
       const response = await fetch('http://localhost:5000/submit-email', {
         method: 'POST',
@@ -24,16 +22,13 @@ function LandingPage() {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         setMessage('Thank you for signing up!');
-        setEmail('');  // Clear input field
+        setEmail(''); // Clear input field
       } else {
         setMessage('Failed to sign up. Please try again.');
       }
     } catch (error) {
-      console.error('Error occurred:', error);
       setMessage('An error occurred. Please try again later.');
     }
   };
