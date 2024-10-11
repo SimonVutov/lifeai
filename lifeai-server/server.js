@@ -1,46 +1,53 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const bodyParser = require('body-parser');
-
-// Initialize Express app
+const cors = require('cors');
 const app = express();
-app.use(cors()); // Enable CORS for cross-origin requests
-app.use(bodyParser.json()); // Parse JSON body
 
-// MongoDB connection string (Replace with your actual MongoDB URL)
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
+
+// Connect to MongoDB Atlas
 mongoose.connect('mongodb+srv://simonvutov1:wuLnRzct3W0m2OU1@cluster0.4dqmx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error(err));
 
-// Define a schema for storing email subscriptions
+// Define Email Schema
 const emailSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  date: { type: Date, default: Date.now },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    }
 });
 
-// Create a model for email subscriptions
 const Email = mongoose.model('Email', emailSchema);
 
-// API route to handle email sign-ups
-app.post('/api/subscribe', async (req, res) => {
-  const { email } = req.body;
+// API route to handle email submissions
+app.post('/submit-email', async (req, res) => {
+    const { email } = req.body;
 
-  try {
-    // Save the email to the database
-    const newEmail = new Email({ email });
-    await newEmail.save();
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
 
-    res.status(200).json({ message: 'Email saved successfully!' });
-  } catch (error) {
-    console.error('Error saving email:', error);
-    res.status(500).json({ message: 'Failed to save email' });
-  }
+    try {
+        const newEmail = new Email({ email });
+        await newEmail.save();
+        res.status(200).json({ message: 'Email saved successfully' });
+    } catch (err) {
+        if (err.code === 11000) { // Duplicate email error
+            return res.status(400).json({ error: 'Email already exists' });
+        }
+        res.status(500).json({ error: 'Failed to save email' });
+    }
 });
 
-// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
