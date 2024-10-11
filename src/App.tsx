@@ -1,18 +1,28 @@
+//import React from 'react';
+import './LandingPage.css';  // You'll create this file to manage styles
 
 function LandingPage() {
   return (
-    <div>
-      <header>
-        <h1>LifeAI</h1>
-        <p>Integrate your Notion, Calendar, Email, and get personalized AI insights.</p>
-        <button>Sign Up for Updates</button>
+    <div className="container">
+      <header className="header">
+        <h1 className="title">LifeAI</h1>
+        <p className="subtitle">
+          Seamlessly integrate your Notion, Calendar, Email, and more.
+          Get personalized AI-driven insights for a productive life.
+        </p>
+        <button className="cta-button">Sign Up for Updates</button>
       </header>
-      <section>
-        <h2>Why LifeAI?</h2>
-        <p>Get personalized productivity tips, daily planning, and decision-making support with a context aware AI model.</p>
+      
+      <section className="features-section">
+        <h2 className="section-title">Why LifeAI?</h2>
+        <p className="section-description">
+          Unlock the full potential of your productivity tools by letting AI guide you through your daily tasks, 
+          improve your decision-making, and keep you on track.
+        </p>
       </section>
-      <footer>
-        <p>Stay tuned for more. Sign up to receive updates and show your support to this project.</p>
+      
+      <footer className="footer">
+        <p className="footer-text">Stay tuned for more updates. Sign up to receive early access.</p>
       </footer>
     </div>
   );
