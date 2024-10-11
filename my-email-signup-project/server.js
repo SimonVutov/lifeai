@@ -8,11 +8,15 @@ mongoose.connect('mongodb+srv://simonvutov1:wuLnRzct3W0m2OU1@cluster0.4dqmx.mong
 
 const EmailSignup = mongoose.model('EmailSignup', new mongoose.Schema({ email: String }));
 
-app.post('/submit-email', async (req, res) => {
+app.post('/api/submit-email', async (req, res) => {
     const { email } = req.body;
-    const newSignup = new EmailSignup({ email });
-    await newSignup.save();
-    res.send('Email signed up successfully!');
+    try {
+        const newSignup = new EmailSignup({ email });
+        await newSignup.save();
+        res.json({ message: 'Email signed up successfully!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 app.get('/submit-email', (req, res) => {
