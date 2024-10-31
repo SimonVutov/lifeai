@@ -65,7 +65,7 @@
             const email = document.getElementById("email").value;
 
             try {
-                const response = await fetch("https://life-piiwyipi7-simonvutovs-projects.vercel.app/signup", {
+                const response = await fetch("/api/signup", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

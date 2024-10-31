@@ -1,33 +1,37 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Import CORS
+const cors = require('cors');
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors({ origin: 'https://life-ai-ten.vercel.app' })); // Allow Vercel domain
+app.use(cors({ origin: 'https://life-ai-ten.vercel.app' })); // Replace with your Vercel URL
 
-// MongoDB connection and schema/model setup (as in previous steps)
-mongoose.connect('your_connection_string_here', {
+// Serve static files from the public folder
+app.use(express.static('public'));
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
+// Define Schema and Model
 const signupSchema = new mongoose.Schema({
     email: { type: String, required: true }
 });
 const Signup = mongoose.model('Signup', signupSchema);
 
-// Root route for testing
+// Root route to serve the HTML file
 app.get('/', (req, res) => {
-    res.send("Welcome to the LifeAI Server!");
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 // POST route to save email
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     try {
         const { email } = req.body;
         const newSignup = new Signup({ email });
