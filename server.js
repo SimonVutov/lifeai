@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -13,6 +14,7 @@ app.use(cors({ origin: 'https://lifeai-tau.vercel.app/' })); // Replace with you
 app.use(express.static('public'));
 
 // MongoDB connection
+console.log("MongoDB URI:", process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -34,6 +36,9 @@ app.get('/', (req, res) => {
 app.post('/api/signup', async (req, res) => {
     try {
         const { email } = req.body;
+        if (!email || !email.includes('@')) {
+            return res.status(400).send({ message: 'Invalid email address' });
+        }
         const newSignup = new Signup({ email });
         await newSignup.save();
         res.status(201).send({ message: 'Email saved successfully!' });
