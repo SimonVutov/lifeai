@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors({ origin: 'lifeai-tau.vercel.app' })); // Replace with your Vercel URL
+app.use(cors({ origin: 'https://lifeai-tau.vercel.app' })); // Replace with your Vercel URL
 
 // Serve static files from the public folder
 app.use(express.static('public'));
