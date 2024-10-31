@@ -21,6 +21,11 @@ const signupSchema = new mongoose.Schema({
 
 const Signup = mongoose.model('Signup', signupSchema);
 
+// Root route for testing
+app.get('/', (req, res) => {
+    res.send("Welcome to the LifeAI Server!");
+});
+
 // POST route to save email
 app.post('/signup', async (req, res) => {
     try {
