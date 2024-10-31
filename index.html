@@ -8,56 +8,83 @@
     <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/009/590/016/non_2x/notebook-icon-transparent-free-png.png">
 </head>
 <body>
-    <header>
-        <h1 class="heading">🗒️ Life AI</h1>
-        <nav>
-            <button onclick="window.location.href='dashboard.html'">Go to Dashboard</button>
-        </nav>
+    <header class="header">
+        <h1 class="heading">LifeAI</h1>
+        <p class="tagline">Organize. Prioritize. Thrive.</p>
     </header>
-    
+
     <main>
         <section class="intro">
-            <h2>Sign Up For Updates</h2>
-            <form action="submit.php" method="post" class="form-container">
-                <div class="input-section">
-                    <label for="email">Email:</label>
-                    <input
-                        type="text"
-                        id="email"
-                        name="email"
-                        value="type here"
-                        style="color: gray;"
-                        onfocus="if (this.value === 'type here') { this.value = ''; this.style.color = 'white'; }"
-                        onblur="if (this.value === '') { this.value = 'type here'; this.style.color = 'gray'; }"
-                    />
-                    <input type="submit" value="Submit">
-                </div>
-                <div class="button-section">
-                    <button type="button" class="start-using-button" onclick="window.location.href='start.html'">Start Using</button>
-                </div>
-            </form>
+            <h2>Personalized. Intelligence. Productivity.</h2>
+            <p>An app built with modern technology for the modern user.</p>
+            <div class="buttons">
+                <button onclick="window.location.href='start.html'">Get Started</button>
+                <button onclick="showPopup()">Email Info Signup</button>
+            </div>
         </section>
 
         <section class="about">
-            <h2>About LifeAI</h2>
-            <p>LifeAI is your personalized AI assistant designed to transform how you organize and navigate your day. Seamlessly integrating with platforms like Notion, Google Calendar, voice memos, and email, LifeAI provides customized insights to help you prioritize, plan, and execute your tasks.</p>
-            <p>Join us to be the first to know when LifeAI launches, and help shape the future of productivity with a tool built for those who value their time and focus.</p>
+            <h2>LifeAI: Your Centralized Personal Assistant</h2>
+            <p>Connect your notes, calendar, email, and voice memos to a centralized personal assistant.</p>
+            <p>Get clarity and insight on your habits, emotions, tasks, and priorities.</p>
         </section>
 
         <section class="vision">
-            <h2>Our Vision</h2>
-            <p>We believe productivity should go beyond managing tasks; it should create space for what truly matters. LifeAI’s advanced AI analyzes your routines, meetings, and tasks to offer proactive suggestions that improve your workflow.</p>
-        </section>
-
-        <section class="features">
-            <h2>Key Features</h2>
-            <ul>
-                <li>Integration with <strong>Notion, Calendar, Voice Memos, and Email</strong> for an all-in-one overview.</li>
-                <li>AI-driven insights to prioritize tasks and optimize decision-making.</li>
-                <li>Personalized daily, weekly, and monthly planning based on your habits.</li>
-                <li>Emphasis on data privacy and security—your information stays private.</li>
-            </ul>
+            <h2>Designed for Clarity and Guidance</h2>
+            <p>Ask questions to receive context-aware guidance in the modern world.</p>
         </section>
     </main>
+
+    <!-- Signup Popup -->
+    <div id="signup-popup" class="popup hidden">
+        <div class="popup-content">
+            <h2>Stay Updated</h2>
+            <form id="signupForm" class="form-container" onsubmit="submitForm(event)">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <button onclick="closePopup()" class="close-button">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the signup popup
+        function showPopup() {
+            document.getElementById("signup-popup").classList.remove("hidden");
+        }
+
+        // Function to hide the signup popup
+        function closePopup() {
+            document.getElementById("signup-popup").classList.add("hidden");
+        }
+
+        // Function to handle form submission
+        async function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const email = document.getElementById("email").value;
+
+            try {
+                const response = await fetch("http://localhost:3000/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+
+                // Close the popup if signup is successful
+                if (response.ok) {
+                    closePopup();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to submit email.");
+            }
+        }
+    </script>
 </body>
 </html>
