@@ -19,12 +19,14 @@ mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));
 
 // Define Schema and Model
 const signupSchema = new mongoose.Schema({
     email: { type: String, required: true }
 });
+
+// Check if the connection is established before creating the model
 const Signup = mongoose.model('Signup', signupSchema);
 
 // Root route to serve the HTML file
@@ -35,12 +37,16 @@ app.get('/', (req, res) => {
 // POST route to save email
 app.post('/api/signup', async (req, res) => {
     try {
+        console.log("Received email1:", req.body);
         const { email } = req.body;
         if (!email || !email.includes('@')) {
             return res.status(400).send({ message: 'Invalid email address' });
         }
+        console.log("Received email2:", req.body);
         const newSignup = new Signup({ email });
+        console.log("Received email3:", req.body);
         await newSignup.save();
+        console.log("Received email4:", req.body);
         res.status(201).send({ message: 'Email saved successfully!' });
     } catch (error) {
         console.error("Error saving email:", error);
